@@ -1,6 +1,10 @@
 #!/bin/bash
 
+## Currently, this script runs vaults on localhost (since that's the default if no IP address is given to the vaults)
+## for the purposes of testing
+
 DEBUG=1;
+INTERVAL_BETWEEN_VAULTS=5;
 
 read -p 'Group directory for all vaults [default = ${PWD}/vaults]: ' vaults_group_dir;
 if [[ ${vaults_group_dir} == "" ]]; then
@@ -33,7 +37,10 @@ root_dir="${vaults_group_dir}"/safe-vault-genesis;
 mkdir -p "${root_dir}";
 nohup "${vault_exe}" --root-dir="${root_dir}" &> "${root_dir}"/vault.stdout &
 
-sleep 3;
+if [[ ${DEBUG} -ne 0 ]]; then
+    printf 'Waiting for genesis vault to start up...\n';
+fi
+sleep 2;
 
 hcc="$(grep "peer_addr" "${root_dir}"/vault.stdout)";
 if [[ ${hcc} == "" ]]; then
@@ -48,14 +55,24 @@ if [[ ${DEBUG} -ne 0 ]]; then
     printf 'Genesis connection-info: %s\n' "${hcc}";
 fi
 
-for((i=1; i < ${num_vaults}; ++i)); do
+for((i=2; i <= ${num_vaults}; ++i)); do
     if [[ ${DEBUG} -ne 0 ]]; then
-        printf 'Running vault num: %d...\n' $((${i} + 1));
+        printf '\nRunning vault number: %d in... ' ${i};
     fi
+    for((j=${INTERVAL_BETWEEN_VAULTS}; j > 0; --j)); do
+        if [[ ${DEBUG} -ne 0 ]]; then
+            printf '%d ' ${j};
+        fi
+        sleep 1;
+    done
     root_dir="${vaults_group_dir}"/safe-vault-${i};
     mkdir -p "${root_dir}";
     nohup "${vault_exe}" --root-dir="${root_dir}" --hard-coded-contacts="${hcc}" &> "${root_dir}"/vault.stdout &
-    if [[ ${i} -ne $((${num_vaults} - 1)) ]]; then
-        sleep 10;
+    if [[ ${DEBUG} -ne 0 ]]; then
+        printf '\nVault number: %d has been started.' ${i};
     fi
 done
+
+if [[ ${DEBUG} -ne 0 ]]; then
+    printf '\n\nDone!\n';
+fi
