@@ -1,3 +1,6 @@
 /target
 **/*.rs.bk
 vaults/
+ip_list
+safe_vault
+connection_info
