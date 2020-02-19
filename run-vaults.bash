@@ -7,7 +7,7 @@
 
 # 0 => No user interaction. The script will use the values set in the config variable below or defaults in some cases.
 # 1 => User interaction turned on. The script will ask the values from the user in an interactive fashion.
-INTERACTIVE=1;
+INTERACTIVE=0;
 
 # ------ Config options: Modify these to change the defaults and specially if using the non-interactive mode ------
 # 0 => No debug output from the script.
@@ -29,6 +29,8 @@ VAULT_EXE="./safe_vault";
 # -vvv    => log error, warn, info, debug.
 # -vvvv   => log error, warn, info, debug, trace.
 VAULT_LOGGING_VERBOSITY="-vv";
+
+export RUST_LOG=safe=debug,qu=trace,routing=debug
 
 # *********************************************************************************************************************
 # *********************************************************************************************************************
@@ -92,7 +94,7 @@ if [[ ${DEBUG} != 0 ]]; then
 fi
 sleep 2;
 
-hcc="$(grep "peer_addr" "${root_dir}"/vault.stdout)";
+hcc="$(grep "127" "${root_dir}"/vault.stdout)";
 if [[ ${hcc} == "" ]]; then
     printf 'Genesis vault did not print its connection info or printed it in an unrecognised format\n.';
     exit 1;
