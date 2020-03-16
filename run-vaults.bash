@@ -28,7 +28,7 @@ VAULT_EXE="./safe_vault";
 # -vv     => log error, warn, info.
 # -vvv    => log error, warn, info, debug.
 # -vvvv   => log error, warn, info, debug, trace.
-VAULT_LOGGING_VERBOSITY="-vv";
+VAULT_LOGGING_VERBOSITY="-vvvv";
 
 export RUST_LOG=safe=debug,qu=trace,routing=debug
 
@@ -94,14 +94,9 @@ if [[ ${DEBUG} != 0 ]]; then
 fi
 sleep 2;
 
-hcc="$(grep "127" "${root_dir}"/vault.stdout)";
-if [[ ${hcc} == "" ]]; then
-    printf 'Genesis vault did not print its connection info or printed it in an unrecognised format\n.';
-    exit 1;
-else
-    #Convert it into an array
-    hcc="[${hcc}]";
-fi
+hcc="$(cat ~/.config/safe_vault/vault_connection_info.config)";
+#Convert it into an array
+hcc="[${hcc}]";
 
 if [[ ${DEBUG} != 0 ]]; then
     printf 'Genesis vault started with connection-info: %s\n' "${hcc}";

@@ -50,14 +50,17 @@ fi
 
 ssh root@${IP_LIST[0]} 'mkdir -p /home/safe; killall -9 safe_vault'
 scp ${VAULT_EXE} root@${IP_LIST[0]}:/home/safe
-ssh root@${IP_LIST} "bash -s" < start-genesis-vault.bash ${IP_LIST[0]} ${VAULT_ROOT_DIR} > connection_info
+ssh root@${IP_LIST} "bash -s" < start-genesis-vault.bash ${IP_LIST[0]} ${VAULT_ROOT_DIR} ${VAULT_LOGGING_VERBOSITY} > connection_info
+cp connection_info ~/.config/safe_vault/vault_connection_info.config
 hcc=$(cat connection_info)
+#Convert it into an array
+hcc="[${hcc}]";
 echo "Genesis vault running on ${IP_LIST[0]}"
 
 ip_list_len=${#IP_LIST[@]}
 for (( i = 1; i < ip_list_len; i++ )); do
     if [[ ${DEBUG} != 0 ]]; then
-        printf '\nRunning vault number: %d in... ' ${i};
+        printf '\nRunning vault number: %d in... ' $(($i + 1));
     fi
     for((j=${INTERVAL_BETWEEN_VAULTS}; j > 0; --j)); do
         if [[ ${DEBUG} != 0 ]]; then
@@ -67,5 +70,5 @@ for (( i = 1; i < ip_list_len; i++ )); do
     done
     ssh root@${IP_LIST[i]} 'mkdir -p /home/safe; killall -9 safe_vault > /dev/null'
     scp ${VAULT_EXE} root@${IP_LIST[i]}:/home/safe
-    ssh root@${IP_LIST[i]} "bash -s" < start-new-vault.bash ${IP_LIST[i]} ${VAULT_ROOT_DIR} ${hcc@Q}
+    ssh root@${IP_LIST[i]} "bash -s" < start-new-vault.bash ${IP_LIST[i]} ${VAULT_ROOT_DIR} ${hcc@Q} ${VAULT_LOGGING_VERBOSITY}
 done

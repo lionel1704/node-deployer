@@ -9,23 +9,25 @@
 ip=$1
 # Vault data path
 data_path=$2
+# Log level
+log_level=$3
 
 cd /home/safe
-export RUST_LOG=routing=info
+export RUST_LOG=safe=debug,qu=debug,routing=debug
+export RUST_BACKTRACE=1
 if [ -d "$data_path" ]; then 
     rm -rf $data_path/*; # Remove this line to preserve vault data
 else
     mkdir ${data_path}
 fi
-nohup ./safe_vault --first --ip ${ip} --root-dir "${data_path}" &> "${data_path}"/vault.stdout &
+nohup ./safe_vault ${log_level} --first --ip ${ip} --root-dir "${data_path}" &> "${data_path}"/vault.stdout &
 sleep 2;
 
-hcc="$(grep "peer_addr" "${data_path}"/vault.stdout)";
+# FIXME: This could read the old config too
+hcc="$(cat ~/.config/safe_vault/vault_connection_info.config)";
+
 if [[ ${hcc} == "" ]]; then
     printf 'Genesis vault did not print its connection info or printed it in an unrecognised format\n.';
     exit 1;
-else
-    #Convert it into an array
-    hcc="[${hcc}]";
 fi
 echo $hcc
