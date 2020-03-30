@@ -20,10 +20,10 @@ if [ -d "$data_path" ]; then
 else
     mkdir ${data_path}
 fi
+echo "" > ~/.config/safe_vault/vault_connection_info.config
 nohup ./safe_vault ${log_level} --first --ip ${ip} --root-dir "${data_path}" &> "${data_path}"/vault.stdout &
 sleep 2;
 
-# FIXME: This could read the old config too
 hcc="$(cat ~/.config/safe_vault/vault_connection_info.config)";
 
 if [[ ${hcc} == "" ]]; then

@@ -22,4 +22,4 @@ if [ -d "$data_path" ]; then
 else
     mkdir ${data_path}
 fi
-nohup heaptrack ./safe_vault ${log_level} --ip ${ip} --root-dir=${data_path} --hard-coded-contacts ${hcc} &> ${data_path}/vault.stdout &
+nohup ./safe_vault ${log_level} --ip ${ip} --root-dir=${data_path} --hard-coded-contacts ${hcc} &> ${data_path}/vault.stdout &
