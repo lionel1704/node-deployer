@@ -18,7 +18,7 @@ INTERVAL_BETWEEN_VAULTS=5;
 # The directory containing the output directories for all the vaults started by this script.
 VAULTS_GRP_DIR="./vaults";
 # Number of vaults to spawn with the first one being the genesis. This number should be greater than 0.
-NUM_VAULTS=8;
+NUM_VAULTS=10;
 # Path to the vault executable file. This should include the file name too, not just the path to the directory as no
 # assumption is made on the name of the executable (and hence must be provided by the user).
 VAULT_EXE="./safe_vault";
