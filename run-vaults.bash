@@ -94,12 +94,18 @@ if [[ ${DEBUG} != 0 ]]; then
 fi
 sleep 2;
 
-hcc="$(cat ~/.config/safe_vault/vault_connection_info.config)";
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    hcc="$(cat ~/.config/safe_vault/vault_connection_info.config)";
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    hcc="$(cat /Users/maidsafe/Library/Preferences/net.maidsafe.safe_vault/vault_connection_info.config)";
+fi
+
 #Convert it into an array
 hcc="[${hcc}]";
 
 if [[ ${DEBUG} != 0 ]]; then
     printf 'Genesis vault started with connection-info: %s\n' "${hcc}";
+    printf 'Genesis vault process id: %d\n' $!;
 fi
 
 for((i=2; i <= ${NUM_VAULTS}; ++i)); do
@@ -117,6 +123,7 @@ for((i=2; i <= ${NUM_VAULTS}; ++i)); do
     nohup "${VAULT_EXE}" "${VAULT_LOGGING_VERBOSITY}" --root-dir="${root_dir}" --hard-coded-contacts="${hcc}" &> "${root_dir}"/vault.stdout &
     if [[ ${DEBUG} != 0 ]]; then
         printf '\nVault number: %d has been started.' ${i};
+        printf '\nVault %d process id: %d\n' ${i} $!;
     fi
 done
 
