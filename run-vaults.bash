@@ -87,7 +87,7 @@ fi
 
 root_dir="${VAULTS_GRP_DIR}"/safe-vault-genesis;
 mkdir -p "${root_dir}";
-nohup "${VAULT_EXE}" "${VAULT_LOGGING_VERBOSITY}" --first --root-dir="${root_dir}" &> "${root_dir}"/vault.stdout &
+nohup "${VAULT_EXE}" "${VAULT_LOGGING_VERBOSITY}" --first --local --root-dir="${root_dir}" &> "${root_dir}"/vault.stdout &
 
 if [[ ${DEBUG} != 0 ]]; then
     printf 'Waiting for genesis vault to start up...\n';
@@ -114,7 +114,7 @@ for((i=2; i <= ${NUM_VAULTS}; ++i)); do
     done
     root_dir="${VAULTS_GRP_DIR}"/safe-vault-${i};
     mkdir -p "${root_dir}";
-    nohup "${VAULT_EXE}" "${VAULT_LOGGING_VERBOSITY}" --root-dir="${root_dir}" --hard-coded-contacts="${hcc}" &> "${root_dir}"/vault.stdout &
+    nohup "${VAULT_EXE}" "${VAULT_LOGGING_VERBOSITY}" --local --root-dir="${root_dir}" --hard-coded-contacts="${hcc}" &> "${root_dir}"/vault.stdout &
     if [[ ${DEBUG} != 0 ]]; then
         printf '\nVault number: %d has been started.' ${i};
     fi
