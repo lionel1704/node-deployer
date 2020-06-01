@@ -28,7 +28,7 @@ VAULT_EXE="./safe_vault";
 VAULT_LOGGING_VERBOSITY="-vvvv";
 # 0 => Copies vault binary to the droplet
 # 1 => Does not copy the vault binary
-COPY_VAULT_BINARY=1
+COPY_VAULT_BINARY=0
 
 # *********************************************************************************************************************
 # *********************************************************************************************************************
@@ -77,5 +77,5 @@ for (( i = 1; i < ip_list_len; i++ )); do
     if [[ ${COPY_VAULT_BINARY} == 0 ]]; then
         scp ${VAULT_EXE} root@${IP_LIST[i]}:/home/safe
     fi
-    ssh root@${IP_LIST[i]} "bash -s" < start-new-vault.bash ${IP_LIST[i]} ${VAULT_ROOT_DIR} ${hcc@Q} ${VAULT_LOGGING_VERBOSITY}
+    ssh root@${IP_LIST[i]} "bash -s" < start-new-vault.bash ${VAULT_ROOT_DIR} ${hcc@Q} ${VAULT_LOGGING_VERBOSITY}
 done

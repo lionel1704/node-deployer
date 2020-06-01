@@ -13,6 +13,8 @@ data_path=$2
 log_level=$3
 
 cd /home/safe
+rm -rf ~/.cache/quic-p2p
+rm -rf ~/.config/quic-p2p
 export RUST_LOG=safe=debug,qu=debug,routing=debug
 export RUST_BACKTRACE=1
 if [ -d "$data_path" ]; then 

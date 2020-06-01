@@ -30,7 +30,7 @@ VAULT_EXE="./safe_vault";
 # -vvvv   => log error, warn, info, debug, trace.
 VAULT_LOGGING_VERBOSITY="-vvvv";
 
-export RUST_LOG=safe=debug,qu=trace,routing=debug
+export RUST_LOG=safe=debug,routing=debug
 
 # *********************************************************************************************************************
 # *********************************************************************************************************************

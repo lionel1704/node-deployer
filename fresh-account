@@ -1,0 +1,7 @@
+killall safe_vault
+rm -rf vaults
+bash run-vaults.bash
+safe auth stop
+safe auth start
+safe auth create-acc --test-coins --config login_config
+safe auth login --self-auth --config login_config

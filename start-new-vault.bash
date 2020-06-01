@@ -5,21 +5,21 @@
 
 # Required arguments
 
-# IP address of the remote machine
-ip=$1
 # Vault data path
-data_path=$2
+data_path=$1
 # Hard coded contacts
-hcc=$3
+hcc=$2
 # Log level
-log_level=$4
+log_level=$3
 
 export RUST_LOG=safe=debug,qu=trace,routing=debug
 export RUST_BACKTRACE=1
+rm -rf ~/.cache/quic-p2p
+rm -rf ~/.config/quic-p2p
 cd /home/safe
 if [ -d "$data_path" ]; then 
     rm -rf $data_path/*; # Remove this line to preserve vault data
 else
     mkdir ${data_path}
 fi
-nohup ./safe_vault ${log_level} --ip ${ip} --root-dir=${data_path} --hard-coded-contacts ${hcc} &> ${data_path}/vault.stdout &
+nohup ./safe_vault ${log_level} --root-dir=${data_path} --hard-coded-contacts ${hcc} &> ${data_path}/vault.stdout &
