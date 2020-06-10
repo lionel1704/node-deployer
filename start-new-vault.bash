@@ -12,7 +12,7 @@ hcc=$2
 # Log level
 log_level=$3
 
-export RUST_LOG=safe=debug,qu=trace,routing=debug
+export RUST_LOG=safe=trace,qu=trace,routing=debug
 export RUST_BACKTRACE=1
 rm -rf ~/.cache/quic-p2p
 rm -rf ~/.config/quic-p2p

@@ -15,7 +15,7 @@ log_level=$3
 cd /home/safe
 rm -rf ~/.cache/quic-p2p
 rm -rf ~/.config/quic-p2p
-export RUST_LOG=safe=debug,qu=debug,routing=debug
+export RUST_LOG=safe=trace,qu=trace,routing=debug
 export RUST_BACKTRACE=1
 if [ -d "$data_path" ]; then 
     rm -rf $data_path/*; # Remove this line to preserve vault data
@@ -24,7 +24,7 @@ else
 fi
 echo "" > ~/.config/safe_vault/vault_connection_info.config
 nohup ./safe_vault ${log_level} --first --ip ${ip} --root-dir "${data_path}" &> "${data_path}"/vault.stdout &
-sleep 2;
+sleep 5;
 
 hcc="$(cat ~/.config/safe_vault/vault_connection_info.config)";
 
