@@ -99,7 +99,8 @@ sleep 2;
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     hcc="$(cat ~/.config/safe_vault/vault_connection_info.config)";
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-    hcc="$(cat /Users/maidsafe/Library/Preferences/net.maidsafe.safe_vault/vault_connection_info.config)";
+    username="$(id -un)"
+    hcc="$(cat /Users/${username}/Library/Preferences/net.maidsafe.safe_vault/vault_connection_info.config)";
 fi
 
 #Convert it into an array
