@@ -1,6 +1,6 @@
-killall safe_vault
-rm -rf vaults
-bash run-vaults.bash
+killall sn_node
+rm -rf nodes
+bash run-nodes.bash
 safe auth stop
 safe auth start
 sleep 10

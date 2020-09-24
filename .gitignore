@@ -1,6 +1,6 @@
 /target
 **/*.rs.bk
-vaults/
+nodes/
 ip_list
-safe_vault
+sn_node
 connection_info
